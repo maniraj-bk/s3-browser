@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy
+    ports:
+      - "4180:4180"
+    environment:
+      - OAUTH2_PROXY_CLIENT_ID=850739390910-08le76cu3h0b4j67t858kp8r2n98r10r.apps.googleusercontent.com
+      - OAUTH2_PROXY_CLIENT_SECRET=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
+      - OAUTH2_PROXY_COOKIE_SECRET=YF9i_rtMyDfuhGNv_aN9uGwTPzyJI71f
+      - OAUTH2_PROXY_REDIRECT_URL=http://localhost:4180/oauth2/callback
+      - OAUTH2_PROXY_UPSTREAMS=http://web-app:5000
+      - OAUTH2_PROXY_EMAIL_DOMAINS=growfin.ai
+      - OAUTH2_PROXY_HTTP_ADDRESS=0.0.0.0:4180
+      - OAUTH2_PROXY_COOKIE_EXPIRE=0
+      - OAUTH2_PROXY_COOKIE_HTTPONLY=true
+    networks:
+      - proxy
+
+  web-app:
+    build:
+      context: ./
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    networks:
+      - proxy
+
+networks:
+  proxy:

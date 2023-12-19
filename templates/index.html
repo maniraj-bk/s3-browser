@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>S3 Browser</title>
+</head>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+
+    function logout() {
+        window.location = "/oauth2/sign_out"
+    }
+</script>
+
+<body>
+    <div name="buttons">
+    <button onclick="goBack()">Go Back</button>
+    <button onclick="logout()" style="float: right;">Logout</button>
+    </div>
+    <ul>
+        {% for key,value in results.items() %}
+        {% if key != '' %}
+        <li>
+            <a href="{{value}}">{{key}}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+</body>
+</html>
